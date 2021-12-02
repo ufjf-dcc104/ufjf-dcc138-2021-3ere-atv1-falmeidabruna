@@ -17,6 +17,9 @@
         canvas.height = 320;
         let x = 150;
         let y = 150;
+        let a = 0;
+        let t0;
+        let dt;
        requestAnimationFrame(desenha);
 
         function desenha (t){
@@ -30,7 +33,7 @@
             // atualiza estado
             y+= 10*dt;
             a = a +2*Math.PI*dt;
-            x = 100 + 100*Math.cos(a);
+            x = 200 + 150*Math.cos(a);
 
             // desenha elementos
             ctx.fillStyle = "white";
