@@ -17,7 +17,19 @@
         canvas.height = 320;
         let x = 150;
         let y = 150;
-        requestAnimationFrame(desenha);
+       requestAnimationFrame(desenha);
+
+        function desenha (t){
+            t0 = t0 ?? t;
+            dt = (t- t0)/1000;
+
+            // desenha fundo
+            ctx.fillStyle = "black";
+            ctx.fillRect (0, 0, canvas.width, canvas.height);
+
+            
+
+        }
         
 
     </script>
