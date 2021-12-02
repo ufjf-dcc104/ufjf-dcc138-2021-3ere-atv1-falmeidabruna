@@ -27,6 +27,11 @@
             ctx.fillStyle = "black";
             ctx.fillRect (0, 0, canvas.width, canvas.height);
 
+            // atualiza estado
+            y+= 10*dt;
+            a = a +2*Math.PI*dt;
+            x = 100 + 100*Math.cos(a);
+
             
 
         }
