@@ -16,8 +16,9 @@
         canvas.width = 480;
         canvas.height = 320;
         let x = 150;
+        let vx = 0;
         let y = 150;
-        let a = 0;
+        let vy = 0;
         let t0;
         let dt;
        requestAnimationFrame(desenha);
@@ -30,10 +31,9 @@
             ctx.fillStyle = "black";
             ctx.fillRect (0, 0, canvas.width, canvas.height);
 
-            // atualiza estado
-            y+= 10*dt;
-            a = a +2*Math.PI*dt;
-            x = 200 + 150*Math.cos(a);
+            // atualiza dinâmica dos estados
+            x+= vx*dt;
+            y+= vy*dt;
 
             // desenha elementos
             ctx.fillStyle = "white";
@@ -42,12 +42,55 @@
             requestAnimationFrame (desenha);
             t0=t;
 
-
-
-
         }
         
+        addEventListener("keydown", teclaPressionada);
+        addEventListener("keyup", teclaSolta);
 
+        function teclaPressionada(e) {
+            //Adiciona controle de velocidade
+            console.log(e.key);
+            switch (e.key){
+                case "ArrowUp":
+                    vy = -20;
+                    break;
+
+                case "ArrowDown":
+                    vy = +20;
+                    break;
+                
+                case "ArrowLeft":
+                    vx = -20;
+                    break;
+
+                case "ArrowRight":
+                    vx = +20;
+                    break;
+            }
+
+        
+        }
+        function teclaSolta(e) {
+            //Adiciona controle de velocidade
+            console.log(e.key);
+            switch (e.key){
+                case "ArrowUp":
+                    vy = 0;
+                    break;
+
+                case "ArrowDown":
+                    vy = 0;
+                    break;
+                
+                case "ArrowLeft":
+                    vx = 0;
+                    break;
+
+                case "ArrowRight":
+                    vx = 0;
+                    break;
+            }
+        }
     </script>
 </body>
 </html>
