@@ -32,7 +32,15 @@
             a = a +2*Math.PI*dt;
             x = 100 + 100*Math.cos(a);
 
-            
+            // desenha elementos
+            ctx.fillStyle = "white";
+            ctx.fillRect(x, y, 20, 20);
+
+            requestAnimationFrame (desenha);
+            t0=t;
+
+
+
 
         }
         
