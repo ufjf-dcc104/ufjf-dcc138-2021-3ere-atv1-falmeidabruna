@@ -17,9 +17,11 @@
         canvas.height = 320;
         let x = 150;
         let vx = 0;
+        let ax = 0;
         let y = 150;
         let vy = 0;
-        const V = 180;
+        let ay = 0;
+        const K = 180;
         let t0;
         let dt;
        requestAnimationFrame(desenha);
@@ -33,7 +35,9 @@
             ctx.fillRect (0, 0, canvas.width, canvas.height);
 
             // atualiza dinâmica dos estados
+            vx = vx + ax*dt;
             x+= vx*dt;
+            vy = vy + ay*dt;
             y+= vy*dt;
 
             // desenha elementos
@@ -53,19 +57,19 @@
             console.log(e.key);
             switch (e.key){
                 case "ArrowUp":
-                    vy = -V;
+                    ay = -K;
                     break;
 
                 case "ArrowDown":
-                    vy = +V;
+                    ay = +K;
                     break;
                 
                 case "ArrowLeft":
-                    vx = -V;
+                    ax = -K;
                     break;
 
                 case "ArrowRight":
-                    vx = +V;
+                    ax = +K;
                     break;
             }
 
@@ -74,21 +78,25 @@
         function teclaSolta(e) {
             //Adiciona controle de velocidade
             console.log(e.key);
-            switch (e.key){
+            switch (e.key){ // aceleração muda velocidade, velocidade muda posição.
                 case "ArrowUp":
                     vy = 0;
+                    ay = 0;
                     break;
 
                 case "ArrowDown":
                     vy = 0;
+                    ay = 0;
                     break;
                 
                 case "ArrowLeft":
                     vx = 0;
+                    ax = 0;
                     break;
 
                 case "ArrowRight":
                     vx = 0;
+                    ax = 0;
                     break;
             }
         }
