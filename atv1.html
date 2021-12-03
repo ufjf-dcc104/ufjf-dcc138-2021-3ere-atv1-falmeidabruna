@@ -29,12 +29,12 @@
 
 
         const sprites = [];
-        for (let ne = 0; ne < 1; ne++) {
+        for (let ne = 0; ne < 20; ne++) {
         let e = {
-            x : 300,
+            x : canvas.width * Math.random() ,
             vx : 0,
             ax : 0,
-            y : 200,
+            y : canvas.height * Math.random(),
             vy : 0,
             ay : 0,
             cor:"red",
@@ -45,6 +45,25 @@
         sprites.push(e);
     }
 
+    let o = {
+             x : 200,
+             vx : 0,
+             ax : 0,
+             y: 150,
+             vy : 0,
+             ay : 0,
+             cor: "blue",
+             desenhar: desenharElemento,
+            mover: moverElemento,
+            controlar: function(){
+                if (this.x > canvas.width +100) {
+                    this.x = -1000; 
+                    this.ax = 0;
+                    this.vx = 0;                   
+                }
+            }
+        };
+        sprites.push(o);
         const K = 180;
         let t0;
         let dt;
@@ -58,19 +77,19 @@
             ctx.fillStyle = "black";
             ctx.fillRect (0, 0, canvas.width, canvas.height);
 
-            //controladores
-            //e.controlar({x:250, y: 120});
-            e.controlar(p);
-           
-
-            // atualiza dinâmica dos estados
             p.mover();
-            e.mover();
-
-            // desenha elementos
             p.desenhar();
-            e.desenhar();
-
+            for (let s = 0; s < sprites.length; s++) {
+                const sprite = sprites[s];
+                 //controladores
+            //sprite.controlar({x:250, y: 120});
+            if (sprite.controlar) sprite.controlar(p);
+            // atualiza dinâmica dos estados
+            sprite.mover?.();
+            // desenha elementos
+            sprite.desenhar();
+                
+            }
 
             requestAnimationFrame (desenha);
             t0=t;
@@ -144,6 +163,13 @@
                 case "ArrowRight":
                     p.ax = 0;
                     break;
+                case "":
+                    o.x = p.x;
+                    o.y = o.y;
+                    o.vx=0;
+                    o.ax=100;
+                    break;
+            }
             }
         }
     </script>
