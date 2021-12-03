@@ -27,7 +27,9 @@
             mover: moverElemento
         };
 
-        
+
+        const sprites = [];
+        for (let ne = 0; ne < 1; ne++) {
         let e = {
             x : 300,
             vx : 0,
@@ -40,7 +42,8 @@
             mover: moverElemento,
             controlar: perseguirAlvo
         };
-        
+        sprites.push(e);
+    }
 
         const K = 180;
         let t0;
