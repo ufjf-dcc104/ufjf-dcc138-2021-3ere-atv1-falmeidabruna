@@ -22,12 +22,11 @@
              y: 100,
              vy : 0,
              ay : 0,
-             desenhar: function () {
-                ctx.fillStyle = "white";
-                ctx.fillRect(this.x, this.y, 20, 20);
-
-             }
+             cor: "white",
+             desenhar: desenharElemento,
+            mover: moverElemento
         };
+
         
         let e = {
             x : 300,
@@ -36,11 +35,10 @@
             y : 200,
             vy : 0,
             ay : 0,
-            desenhar: function(){
-                ctx.fillStyle = "red";
-                ctx.fillRect(this.x, this.y, 20, 20);
-
-            }
+            cor:"red",
+            desenhar: desenharElemento,
+            mover: moverElemento,
+            controlar: perseguirAlvo
         };
         
 
@@ -58,19 +56,13 @@
             ctx.fillRect (0, 0, canvas.width, canvas.height);
 
             //controladores
-            e.ay = 0.5*(p.y - e.y) - 0.2*e.vx;
-            e.ax = 0.5*(p.x - e.x) - 0.2*e.vy;
+            //e.controlar({x:250, y: 120});
+            e.controlar(p);
+           
 
             // atualiza dinâmica dos estados
-            p.vx = p.vx + p.ax*dt;
-            p.x = p.x + p.vx*dt;
-            p.vy = p.vy + p.ay*dt;
-            p.y = p.y + p.vy*dt;
-
-            e.vx = e.vx + e.ax*dt;
-            e.x+= e.vx*dt;
-            e.vy = e.vy + e.ay*dt;
-            e.y+= e.vy*dt;
+            p.mover();
+            e.mover();
 
             // desenha elementos
             p.desenhar();
@@ -81,12 +73,33 @@
             t0=t;
 
         }
-        
+
+        function moverElemento(){
+                this.vx = this.vx + this.ax*dt;
+                this.x = this.x + this.vx*dt;
+                this.vy = this.vy + this.ay*dt;
+                this.y = this.y + this.vy*dt;
+        }
+        function desenharElemento(){
+            ctx.fillStyle = this.cor;
+            ctx.fillRect(this.x, this.y, 20, 20);
+          
+        }
+
+        function perseguirAlvo(alvo){
+            this.ay = 0.5*(alvo.y - this.y) - 0.2*this.vx;
+            this.ax = 0.5*(alvo.x - this.x) - 0.2*this.vy;
+        }
+
+        function evitarAlvo(alvo){
+            this.ay = -0.5*(alvo.y - this.y) - 0.2*this.vx;
+            this.ax = -0.5*(alvo.x - this.x) - 0.2*this.vy;
+        }
+
         addEventListener("keydown", teclaPressionada);
         addEventListener("keyup", teclaSolta);
 
         function teclaPressionada(event) {
-
             //Adiciona controle de velocidade
             console.log(event.key);
             switch (event.key){
