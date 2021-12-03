@@ -15,6 +15,8 @@
         let ctx = canvas.getContext ("2d");
         canvas.width = 480;
         canvas.height = 320;
+        let pontos = 0;
+
         let p = {
              x : 150,
              vx : 0,
@@ -22,6 +24,8 @@
              y: 100,
              vy : 0,
              ay : 0,
+             w: 40,
+             h: 15,
              cor: "white",
              desenhar: desenharElemento,
             mover: moverElemento
@@ -37,6 +41,8 @@
             y : canvas.height * Math.random(),
             vy : 0,
             ay : 0,
+            w: 15,
+            h: 15,
             cor:"red",
             desenhar: desenharElemento,
             mover: moverElemento,
@@ -52,6 +58,8 @@
              y: 150,
              vy : 0,
              ay : 0,
+             w: 5,
+             h: 5,
              cor: "blue",
              desenhar: desenharElemento,
             mover: moverElemento,
@@ -78,7 +86,6 @@
             ctx.fillRect (0, 0, canvas.width, canvas.height);
 
             p.mover();
-            p.desenhar();
             for (let s = 0; s < sprites.length; s++) {
                 const sprite = sprites[s];
                  //controladores
@@ -88,8 +95,32 @@
             sprite.mover?.();
             // desenha elementos
             sprite.desenhar();
-                
+
+                if (colidiram(o ,sprite) && o !== sprite) {
+
+                    o.x = -1000;
+                    o.y = -100;
+                    o.vx = 0;
+                    o.ax = 0;
+                    sprite.x = 1000;
+                    sprite.vx = 100;
+                    sprite.ax = 0;
+                    pontos++;
+                }
+
+                if (colidiram(p ,sprite) && o !== sprite) {
+                sprite.x = 1000;
+                sprite.vx = 100;
+                sprite.ax = 0;
+                pontos -=3;
+                }
+
             }
+            p.desenhar();
+
+            ctx.fillStyle = "yellow";
+            ctx.font = "20 px Impact";
+            ctx.fillText(pontos, 10, 10);
 
             requestAnimationFrame (desenha);
             t0=t;
@@ -104,13 +135,13 @@
         }
         function desenharElemento(){
             ctx.fillStyle = this.cor;
-            ctx.fillRect(this.x, this.y, 20, 20);
+            ctx.fillRect(this.x, this.y, this.w, this.h);
           
         }
 
         function perseguirAlvo(alvo){
-            this.ay = 0.5*(alvo.y - this.y) - 0.2*this.vx;
-            this.ax = 0.5*(alvo.x - this.x) - 0.2*this.vy;
+            this.ay = 100* Math.sign(alvo.y - this.y) - 0.2*this.vx;
+            this.ax = 100*Math.sign(alvo.x - this.x) - 0.2*this.vy;
         }
 
         function evitarAlvo(alvo){
@@ -146,7 +177,6 @@
         }
         function teclaSolta(event) {
             //Adiciona controle de velocidade
-            console.log(event.key);
             switch (event.key){ // aceleração muda velocidade, velocidade muda posição.
                 case "ArrowUp":
                     p.ay = 0;
@@ -173,6 +203,17 @@
                 break;
             }
         
+        }
+
+        function colidiram(A, B){
+            return !(
+                (A.x > B.x + B.w)
+                || (A.x + A.w < B.x)
+                || (A.y > B.y +B.h)
+                || (A.y + A.h < B.y)
+            );
+
+
         }
     </script>
 </body>
